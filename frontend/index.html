@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Rules Assistant</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+        .spinner {
+            display: none;
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏀 Basketball Rules Assistant</h1>
+        <p>Ask a question about FIBA, NBA, NCAA, or 3x3 rules.</p>
+        
+        <textarea id="queryInput" placeholder="E.g., What is traveling in FIBA?"></textarea>
+        <button onclick="askQuestion()">Ask</button>
+        <div id="spinner" class="spinner">Thinking...</div>
+        
+        <div id="result">The answer will appear here.</div>
+    </div>
+
+    <script>
+        async function askQuestion() {
+            const query = document.getElementById('queryInput').value;
+            if (!query.trim()) return;
+
+            const resultDiv = document.getElementById('result');
+            const spinner = document.getElementById('spinner');
+            
+            resultDiv.innerHTML = '';
+            spinner.style.display = 'block';
+
+            try {
+                // Calls the System A FastAPI endpoint via Nginx reverse proxy
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                let html = `<strong>Answer:</strong><br><br>${data.answer}<br><br>`;
+                
+                if (data.chunks && data.chunks.length > 0) {
+                    html += `<strong>Sources:</strong><ul>`;
+                    data.chunks.slice(0, 3).forEach(chunk => {
+                        html += `<li>${chunk.metadata.league || '?'} - ${chunk.metadata.article_or_section || '?'}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = `<span style="color: red;">Error: ${error.message}</span>`;
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Databases & large files
+qdrant_data/
+*.pdf
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Environment & IDE
+.env
+.venv/
+.mypy_cache/
+.ruff_cache/
+
+# Docker sub-projects (built separately)
+system_b/
+mcp_servers/
+frontend/
+
+# Data artifacts (mounted as volume)
+data/images/
+data/parsed/
+data/image_cache.json
+
+# Misc
+scratch_captions.py
+CHANGELOG.md
+README.md

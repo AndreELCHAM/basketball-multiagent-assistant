@@ -1,0 +1,35 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# PDF parsing
+pymupdf4llm>=0.0.17
+pymupdf
+
+# LLM / VLM (OpenRouter via OpenAI-compatible client)
+openai
+
+# Embeddings & Reranking (local GPU)
+sentence-transformers>=3.0.0
+FlagEmbedding
+torch
+
+# LangChain / LangGraph
+langchain-core
+langchain-text-splitters
+langgraph>=0.2
+
+# Vector store
+qdrant-client[fastembed]
+fastembed
+
+# Utilities
+langdetect
+tenacity
+python-dotenv
+numpy
+tabulate
+Pillow
+
+# HTTP API & Database (Docker)
+fastapi
+uvicorn[standard]
+pymongo

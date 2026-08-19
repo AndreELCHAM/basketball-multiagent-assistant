@@ -1,3 +1,21 @@
+# ── Project-specific ──────────────────────────────────────
+qdrant_data/
+data/images/
+data/parsed/
+data/image_cache.json
+data/parsed_pages.json
+data/ingestion_benchmark_results.md
+data/retrieval_benchmark_results.md
+data/retrieval_benchmark_results.json
+
+# Large document files
+*.pdf
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

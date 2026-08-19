@@ -1,0 +1,315 @@
+[
+  {
+    "id": "q01",
+    "query": "In FIBA, what is the cylinder principle in basketball and how is it applied?",
+    "english_query": "In FIBA, what is the cylinder principle in basketball and how is it applied?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Article 33: Cylinder Principle",
+    "ground_truth_keywords": [
+      "cylinder",
+      "vertical",
+      "space",
+      "above",
+      "position"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q02",
+    "query": "How many timeouts are allowed per team in an NBA game and when can they be called?",
+    "english_query": "How many timeouts are allowed per team in an NBA game and when can they be called?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Timeouts",
+    "ground_truth_keywords": [
+      "timeout",
+      "team",
+      "regular",
+      "mandatory",
+      "quarter"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q03",
+    "query": "Explain the dimensions and markings of a FIBA basketball court including the three-point line distance",
+    "english_query": "Explain the dimensions and markings of a FIBA basketball court including the three-point line distance",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Playing Court",
+    "ground_truth_keywords": [
+      "court",
+      "dimensions",
+      "three-point",
+      "line",
+      "metre",
+      "6.75"
+    ],
+    "requires_diagram": true,
+    "style": "technical"
+  },
+  {
+    "id": "q04",
+    "query": "What are the exact measurements of the basketball ring and its mounting plate according to FIBA rules?",
+    "english_query": "What are the exact measurements of the basketball ring and its mounting plate according to FIBA rules?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Equipment",
+    "ground_truth_keywords": [
+      "ring",
+      "diameter",
+      "mounting",
+      "plate",
+      "backboard",
+      "450mm"
+    ],
+    "requires_diagram": true,
+    "style": "technical"
+  },
+  {
+    "id": "q05",
+    "query": "In FIBA free throw situations, where exactly do the rebounding players stand along the lane?",
+    "english_query": "In FIBA free throw situations, where exactly do the rebounding players stand along the lane?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Free Throws",
+    "ground_truth_keywords": [
+      "free throw",
+      "lane",
+      "rebound",
+      "position",
+      "player",
+      "space"
+    ],
+    "requires_diagram": true,
+    "style": "technical"
+  },
+  {
+    "id": "q06",
+    "query": "In FIBA, what hand signals do basketball referees use to indicate different types of fouls?",
+    "english_query": "In FIBA, what hand signals do basketball referees use to indicate different types of fouls?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Referees Signals",
+    "ground_truth_keywords": [
+      "signal",
+      "referee",
+      "hand",
+      "foul",
+      "gesture"
+    ],
+    "requires_diagram": true,
+    "style": "technical"
+  },
+  {
+    "id": "q07",
+    "query": "Quelles sont les règles du marcher en basketball selon la FIBA?",
+    "english_query": "What are the traveling rules in basketball according to FIBA?",
+    "language": "fr",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Travelling",
+    "ground_truth_keywords": [
+      "travel",
+      "pivot",
+      "foot",
+      "step",
+      "move",
+      "dribble"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q08",
+    "query": "Combien de fautes personnelles un joueur peut-il commettre avant d'être exclu dans un match NBA?",
+    "english_query": "How many personal fouls can a player commit before being disqualified in an NBA game?",
+    "language": "fr",
+    "expected_league": "NBA",
+    "ground_truth_section": "Personal Fouls",
+    "ground_truth_keywords": [
+      "personal",
+      "foul",
+      "disqualified",
+      "six",
+      "player"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q09",
+    "query": "¿Cuánto tiempo tiene un equipo para avanzar el balón a la mitad ofensiva según las reglas de la FIBA?",
+    "english_query": "How much time does a team have to advance the ball to the frontcourt according to FIBA rules?",
+    "language": "es",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Eight Seconds",
+    "ground_truth_keywords": [
+      "eight",
+      "seconds",
+      "backcourt",
+      "frontcourt",
+      "advance"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q10",
+    "query": "¿Cuáles son las diferencias en la duración de los períodos entre la NBA y la NCAA?",
+    "english_query": "What are the differences in period duration between NBA and NCAA?",
+    "language": "es",
+    "expected_league": null,
+    "ground_truth_section": "Playing Time",
+    "ground_truth_keywords": [
+      "quarter",
+      "half",
+      "minutes",
+      "period",
+      "time"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q11",
+    "query": "yo so like what happens when someone gets a tech foul in 3x3 basketball? is it different from regular ball?",
+    "english_query": "What happens when a player receives a technical foul in 3x3 basketball? Is it different from regular basketball?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Fouls",
+    "ground_truth_keywords": [
+      "technical",
+      "foul",
+      "free throw",
+      "penalty",
+      "unsportsmanlike"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial"
+  },
+  {
+    "id": "q12",
+    "query": "In NCAA, wait can u explain the shot clock thing in college bball? like when does it reset n stuff",
+    "english_query": "Explain the shot clock rules in NCAA college basketball including when it resets",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Shot Clock",
+    "ground_truth_keywords": [
+      "shot clock",
+      "seconds",
+      "reset",
+      "possession",
+      "offensive"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial"
+  },
+  {
+    "id": "q13",
+    "query": "bruh what even counts as goaltending in the NBA?? my friend says it's different from college",
+    "english_query": "What are the goaltending rules in the NBA and how do they differ from college?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Goaltending",
+    "ground_truth_keywords": [
+      "goaltending",
+      "basket",
+      "interference",
+      "ball",
+      "descending",
+      "cylinder"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial"
+  },
+  {
+    "id": "q14",
+    "query": "how does the 12 second rule work in 3x3 hoops lol never understood it",
+    "english_query": "How does the 12-second shot clock work in 3x3 basketball?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Shot Clock",
+    "ground_truth_keywords": [
+      "12",
+      "seconds",
+      "shot clock",
+      "possession",
+      "3x3"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial"
+  },
+  {
+    "id": "q15",
+    "query": "ok so like in the nba can u challenge a foul call? how does that work exactly",
+    "english_query": "How does the coach's challenge work in the NBA for foul calls?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Coach's Challenge",
+    "ground_truth_keywords": [
+      "challenge",
+      "coach",
+      "review",
+      "overturn",
+      "timeout"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial"
+  },
+  {
+    "id": "q16",
+    "query": "In FIBA, what constitutes a double dribble violation and what is the penalty?",
+    "english_query": "In FIBA, what constitutes a double dribble violation and what is the penalty?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Dribbling",
+    "ground_truth_keywords": [
+      "dribble",
+      "double",
+      "violation",
+      "hand",
+      "ball",
+      "control"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q17",
+    "query": "Define the backcourt violation rules under FIBA regulations",
+    "english_query": "Define the backcourt violation rules under FIBA regulations",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Backcourt",
+    "ground_truth_keywords": [
+      "backcourt",
+      "violation",
+      "frontcourt",
+      "centre",
+      "line",
+      "return"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  },
+  {
+    "id": "q18",
+    "query": "How many players are on the court in a 3x3 game and what are the substitution rules?",
+    "english_query": "How many players are on the court in a 3x3 game and what are the substitution rules?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Teams",
+    "ground_truth_keywords": [
+      "player",
+      "team",
+      "substitution",
+      "three",
+      "roster"
+    ],
+    "requires_diagram": false,
+    "style": "technical"
+  }
+]
