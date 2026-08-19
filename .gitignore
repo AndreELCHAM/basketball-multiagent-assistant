@@ -11,6 +11,9 @@ data/retrieval_benchmark_results.json
 # Large document files
 *.pdf
 
+# Test Files
+test-push.txt
+
 # IDE and OS files
 .vscode/
 .idea/
