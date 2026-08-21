@@ -1,8 +1,4 @@
-"""
-Chunking strategies for basketball rulebook documents.
-Config 1: Markdown structure-aware (header-based splitting).
-Config 2: Recursive character splitting with token-aware boundaries.
-"""
+
 
 import hashlib
 import logging
@@ -34,13 +30,13 @@ SECTION_PATTERNS = [
 
 
 def _generate_chunk_id(league: str, text: str, index: int) -> str:
-    """Generate a deterministic unique ID for a chunk."""
+
     content_hash = hashlib.md5(text.encode("utf-8")).hexdigest()[:8]
     return f"{league}_{index:04d}_{content_hash}"
 
 
 def _extract_section_from_headers(header_metadata: dict) -> str:
-    """Build article_or_section from markdown header hierarchy."""
+
     parts = []
     for key in ["h1", "h2", "h3"]:
         if key in header_metadata and header_metadata[key]:
@@ -49,16 +45,14 @@ def _extract_section_from_headers(header_metadata: dict) -> str:
 
 
 def _extract_section_from_text(text: str) -> str:
-    """Fallback: extract article/section from body text via regex."""
     for pattern in SECTION_PATTERNS:
-        match = pattern.search(text[:500])  # only scan start of chunk
+        match = pattern.search(text[:500])
         if match:
             return match.group(1).strip()
     return ""
 
 
 def _detect_images_in_chunk(text: str) -> tuple[bool, Optional[str], Optional[str]]:
-    """Detect image references and captions in a chunk."""
     img_pattern = re.compile(r"!\[.*?\]\((.*?)\)")
     caption_pattern = re.compile(r"\*\*\[Figure Description\]:\*\*\s*(.*?)(?:\n\n|\Z)", re.DOTALL)
 
@@ -80,7 +74,7 @@ def _build_chunk_metadata(
     index: int,
     section_override: str = "",
 ) -> dict:
-    """Build the unified metadata payload for a chunk."""
+
     has_image, image_path, image_caption = _detect_images_in_chunk(text)
 
     section = section_override or _extract_section_from_text(text) or f"Page {page_number}"
@@ -101,16 +95,7 @@ def chunk_markdown_aware(
     pages: list[dict],
     league: str,
 ) -> list[dict]:
-    """
-    Config 1: Markdown structure-aware chunking.
-    Splits on #/##/### headers to keep legal clauses intact.
 
-    Args:
-        pages: list of page dicts from pdf_parser (with 'markdown', 'source_pdf', 'page_number')
-
-    Returns:
-        list of {"text": str, "metadata": dict}
-    """
     splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=MARKDOWN_HEADERS,
         strip_headers=False,
@@ -150,18 +135,7 @@ def chunk_recursive(
     chunk_size: int = 2000,
     chunk_overlap: int = 200,
 ) -> list[dict]:
-    """
-    Config 2: Recursive character splitting with overlap.
-    Uses character counts (approx ~512 tokens at 4 chars/token).
 
-    Args:
-        pages: list of page dicts from pdf_parser
-        chunk_size: max characters per chunk (default 2000 ≈ 512 tokens)
-        chunk_overlap: overlap in characters (default 200 ≈ 50 tokens)
-
-    Returns:
-        list of {"text": str, "metadata": dict}
-    """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
@@ -180,7 +154,6 @@ def chunk_recursive(
         source_pdf = page["source_pdf"]
         page_num = page["page_number"]
 
-        # Update current section from page content
         section_from_text = _extract_section_from_text(md_text)
         if section_from_text:
             current_section = section_from_text
@@ -192,7 +165,6 @@ def chunk_recursive(
             if not text or len(text) < 20:
                 continue
 
-            # Check if this chunk has its own section header
             chunk_section = _extract_section_from_text(text) or current_section
 
             metadata = _build_chunk_metadata(

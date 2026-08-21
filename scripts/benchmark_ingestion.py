@@ -1,8 +1,4 @@
-"""
-Chunking × Embedding benchmark harness.
-Tests 4 combinations: {markdown, recursive} × {bge_m3, mpnet}
-Creates isolated Qdrant collections for each combo.
-"""
+
 
 import json
 import logging
@@ -33,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 def load_parsed_pages() -> dict:
-    """Load the structured parsed pages from ingestion output."""
+
     path = DATA_DIR / "parsed_pages.json"
     if not path.exists():
         logger.error(f"Parsed pages not found at {path}. Run 'python scripts/run_ingestion.py' first.")
@@ -44,12 +40,12 @@ def load_parsed_pages() -> dict:
 
 
 def run_benchmark(fresh: bool = False):
-    """Run the full chunking × embedding benchmark."""
+
     logger.info("=" * 60)
-    logger.info("Chunking × Embedding Benchmark")
+    logger.info("Chunking x Embedding Benchmark")
     logger.info("=" * 60)
 
-    # Load parsed data
+   
     all_pages = load_parsed_pages()
     logger.info(f"Loaded {sum(len(p) for p in all_pages.values())} pages across {len(all_pages)} leagues")
 
@@ -64,7 +60,7 @@ def run_benchmark(fresh: bool = False):
         logger.info(f"Processing: {collection_name}")
         logger.info(f"  Chunker: {chunker_type}, Embedder: {embedder_name}, Dim: {dim}")
 
-        # Optionally recreate collection
+
         if fresh:
             delete_collection(collection_name)
 
@@ -113,7 +109,6 @@ def run_benchmark(fresh: bool = False):
         upsert_time = time.perf_counter() - upsert_start
         logger.info(f"  Upsert done in {upsert_time:.1f}s")
 
-        # Collection stats
         info = get_collection_info(collection_name)
 
         results_table.append({
@@ -127,13 +122,13 @@ def run_benchmark(fresh: bool = False):
             "Points in DB": info["points_count"],
         })
 
-    # Print results table
+
     print("\n" + "=" * 60)
     print("INGESTION BENCHMARK RESULTS")
     print("=" * 60)
     print(tabulate(results_table, headers="keys", tablefmt="github"))
 
-    # Save results
+
     results_path = DATA_DIR / "ingestion_benchmark_results.md"
     with open(results_path, "w", encoding="utf-8") as f:
         f.write("# Ingestion Benchmark Results\n\n")
@@ -145,7 +140,7 @@ def run_benchmark(fresh: bool = False):
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Run chunking × embedding benchmark")
+    parser = argparse.ArgumentParser(description="Run chunking x embedding benchmark")
     parser.add_argument("--fresh", action="store_true", help="Delete and recreate all collections")
     args = parser.parse_args()
     run_benchmark(fresh=args.fresh)

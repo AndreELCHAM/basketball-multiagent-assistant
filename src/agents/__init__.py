@@ -1,1 +1,1 @@
-# agents subpackage
+"""System A agents package."""

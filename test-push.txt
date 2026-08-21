@@ -1,2 +1,0 @@
-This is a test file! Right now it is being ignored by git.
-When you are ready to do a test push later, you can remove 'test-push.txt' from the .gitignore file, and then run your git commands again!

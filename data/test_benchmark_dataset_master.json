@@ -1,0 +1,551 @@
+[
+  {
+    "id": "master_q01",
+    "query": "What are the exact measurements of the basketball ring and its mounting plate according to FIBA rules?",
+    "english_query": "What are the exact measurements of the basketball ring and its mounting plate according to FIBA rules?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Equipment",
+    "ground_truth_keywords": [
+      "ring",
+      "diameter",
+      "mounting",
+      "plate",
+      "backboard",
+      "450mm"
+    ],
+    "requires_diagram": true,
+    "style": "technical",
+    "ground_truth_answer": "The basketball ring must have an inner diameter of 450 millimeters. The mounting plate must be attached to the backboard in a way that prevents force from being transmitted directly to the backboard."
+  },
+  {
+    "id": "master_q02",
+    "query": "In FIBA, what is the cylinder principle in basketball and how is it applied?",
+    "english_query": "In FIBA, what is the cylinder principle in basketball and how is it applied?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Article 33: Cylinder Principle",
+    "ground_truth_keywords": [
+      "cylinder",
+      "vertical",
+      "space",
+      "above",
+      "position"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "The cylinder principle defines the imaginary cylinder space occupied by a player on the floor. It includes the space above the player, limited by the palms of the hands in front, the buttocks at the back, and the outside of the arms and legs. A player is entitled to this normal basketball position and the vertical space above them."
+  },
+  {
+    "id": "master_q03",
+    "query": "¿Cuánto tiempo tiene un equipo para avanzar el balón a la mitad ofensiva según las reglas de la FIBA?",
+    "english_query": "How much time does a team have to advance the ball to the frontcourt according to FIBA rules?",
+    "language": "es",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Eight Seconds",
+    "ground_truth_keywords": [
+      "eight",
+      "seconds",
+      "backcourt",
+      "frontcourt",
+      "advance"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "Según las reglas de la FIBA, un equipo tiene ocho segundos para avanzar el balón desde su pista trasera (defensiva) hacia la pista delantera (ofensiva)."
+  },
+  {
+    "id": "master_q04",
+    "query": "How many players are on the court in a 3x3 game and what are the substitution rules?",
+    "english_query": "How many players are on the court in a 3x3 game and what are the substitution rules?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Teams",
+    "ground_truth_keywords": [
+      "player",
+      "team",
+      "substitution",
+      "three",
+      "roster"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "In a 3x3 game, each team has three players on the court and one substitute on the bench. Substitutions can be made by either team when the ball becomes dead, prior to the check-ball, without requiring action from the referee."
+  },
+  {
+    "id": "master_q05",
+    "query": "ok so like in the nba can u challenge a foul call? how does that work exactly",
+    "english_query": "How does the coach's challenge work in the NBA for foul calls?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Coach's Challenge",
+    "ground_truth_keywords": [
+      "challenge",
+      "coach",
+      "review",
+      "overturn",
+      "timeout"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial",
+    "ground_truth_answer": "Yes, in the NBA, a head coach can challenge a called personal foul, an out-of-bounds call, or a goaltending/basket interference call. The team must have at least one timeout remaining to trigger the challenge, which is initiated by calling a timeout and signaling for a review."
+  },
+  {
+    "id": "master_q06",
+    "query": "Explain the dimensions and markings of a FIBA basketball court including the three-point line distance",
+    "english_query": "Explain the dimensions and markings of a FIBA basketball court including the three-point line distance",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Playing Court",
+    "ground_truth_keywords": [
+      "court",
+      "dimensions",
+      "three-point",
+      "line",
+      "metre",
+      "6.75"
+    ],
+    "requires_diagram": true,
+    "style": "technical",
+    "ground_truth_answer": "A standard FIBA basketball court is 28 meters long and 15 meters wide. The three-point line is an arc at a distance of 6.75 meters from the basket."
+  },
+  {
+    "id": "master_q07",
+    "query": "In NCAA, wait can u explain the shot clock thing in college bball? like when does it reset n stuff",
+    "english_query": "Explain the shot clock rules in NCAA college basketball including when it resets",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Shot Clock",
+    "ground_truth_keywords": [
+      "shot clock",
+      "seconds",
+      "reset",
+      "possession",
+      "offensive"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial",
+    "ground_truth_answer": "In NCAA men's basketball, the shot clock is 30 seconds. It resets to 30 seconds on a change of possession or a foul by the defense. It resets to 20 seconds when the offensive team rebounds a missed shot that hits the rim."
+  },
+  {
+    "id": "master_q08",
+    "query": "How many timeouts are allowed per team in an NBA game and when can they be called?",
+    "english_query": "How many timeouts are allowed per team in an NBA game and when can they be called?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Timeouts",
+    "ground_truth_keywords": [
+      "timeout",
+      "team",
+      "regular",
+      "mandatory",
+      "quarter"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "Each team is allowed seven charged timeouts per regulation game. Timeouts can be called by a player in the game or the head coach during a dead ball, or by a player in possession of the ball when the ball is live."
+  },
+  {
+    "id": "master_q09",
+    "query": "In FIBA, what constitutes a double dribble violation and what is the penalty?",
+    "english_query": "In FIBA, what constitutes a double dribble violation and what is the penalty?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Dribbling",
+    "ground_truth_keywords": [
+      "dribble",
+      "double",
+      "violation",
+      "hand",
+      "ball",
+      "control"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "A double dribble violation occurs when a player dribbles, stops and holds the ball with one or both hands, and then begins to dribble again. The penalty is a loss of possession, with the ball awarded to the opposing team for a throw-in."
+  },
+  {
+    "id": "master_q10",
+    "query": "yo so like what happens when someone gets a tech foul in 3x3 basketball? is it different from regular ball?",
+    "english_query": "What happens when a player receives a technical foul in 3x3 basketball? Is it different from regular basketball?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Fouls",
+    "ground_truth_keywords": [
+      "technical",
+      "foul",
+      "free throw",
+      "penalty",
+      "unsportsmanlike"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial",
+    "ground_truth_answer": "In FIBA 3x3 basketball, a technical foul results in one free throw for the opposing team. Unlike regular basketball, possession does not change after the free throw; the game resumes with the team that had possession prior to the technical foul."
+  },
+  {
+    "id": "master_q11",
+    "query": "yo bro what does the half court look like in 3x3 hoops? drop a pic of the court layout",
+    "english_query": "What does the court layout look like in FIBA 3x3 basketball? Show me a diagram.",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Court and Ball",
+    "ground_truth_keywords": [
+      "court",
+      "diagram",
+      "15",
+      "11",
+      "zone"
+    ],
+    "requires_diagram": true,
+    "style": "colloquial",
+    "ground_truth_answer": "In FIBA 3x3, the game is played on a half-court measuring 15 meters by 11 meters. It features a standard free-throw line, a 2-point line, and a 'no-charge semi-circle'. A diagram is provided in the rules showing these exact dimensions."
+  },
+  {
+    "id": "master_q12",
+    "query": "¿Cuáles son las medidas exactas de la pista y la línea de tres puntos en la NBA? Enséñame el diagrama.",
+    "english_query": "What are the exact dimensions of the court and the three-point line in the NBA? Show me the diagram.",
+    "language": "es",
+    "expected_league": "NBA",
+    "ground_truth_section": "Court Dimensions",
+    "ground_truth_keywords": [
+      "court",
+      "dimensions",
+      "three-point",
+      "feet",
+      "line"
+    ],
+    "requires_diagram": true,
+    "style": "technical",
+    "ground_truth_answer": "La pista de la NBA mide 94 pies de largo por 50 pies de ancho. La línea de tres puntos está a 23 pies y 9 pulgadas de la canasta en la parte superior del arco, y a 22 pies en las esquinas."
+  },
+  {
+    "id": "master_q13",
+    "query": "En FIBA, est-ce que frapper la planche compte comme une interférence de panier?",
+    "english_query": "In FIBA, does hitting the backboard count as basket interference?",
+    "language": "fr",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Basket Interference",
+    "ground_truth_keywords": [
+      "slap",
+      "backboard",
+      "vibrate",
+      "basket",
+      "interference"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "En FIBA, frapper la planche (backboard) ne compte comme interférence de panier que si cela fait vibrer le panier de manière à empêcher le ballon d'entrer ou de modifier sa trajectoire de façon décisive."
+  },
+  {
+    "id": "master_q14",
+    "query": "mec c'est quoi les dimensions exactes de la raquette en NBA? t'as un schéma?",
+    "english_query": "What are the exact dimensions of the free throw lane (paint) in the NBA? Do you have a diagram?",
+    "language": "fr",
+    "expected_league": "NBA",
+    "ground_truth_section": "Court Dimensions",
+    "ground_truth_keywords": [
+      "lane",
+      "paint",
+      "16 feet",
+      "diagram",
+      "dimensions"
+    ],
+    "requires_diagram": true,
+    "style": "colloquial",
+    "ground_truth_answer": "En NBA, la raquette (free throw lane) mesure 16 pieds de large. Un schéma officiel montre les dimensions exactes incluant la ligne des lancers francs à 15 pieds."
+  },
+  {
+    "id": "master_q15",
+    "query": "yo where exactly is the coaching box marked on an NCAA court? need the layout",
+    "english_query": "Where is the coaching box marked on an NCAA basketball court? I need the layout.",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Coaches' Box",
+    "ground_truth_keywords": [
+      "coaching",
+      "box",
+      "lines",
+      "sideline",
+      "diagram"
+    ],
+    "requires_diagram": true,
+    "style": "colloquial",
+    "ground_truth_answer": "In the NCAA, the coaching box is marked outside the sideline, beginning 38 feet from the end line and extending towards the end line. A diagram shows it designated by two lines perpendicular to the sideline."
+  },
+  {
+    "id": "master_q16",
+    "query": "how do u 'check the ball' in 3x3? what are the exact rules for starting play?",
+    "english_query": "How do you check the ball in 3x3 basketball and what are the rules for starting play?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Check-ball",
+    "ground_truth_keywords": [
+      "check",
+      "ball",
+      "top",
+      "arc",
+      "exchange"
+    ],
+    "requires_diagram": false,
+    "style": "colloquial",
+    "ground_truth_answer": "In FIBA 3x3, the ball must be 'checked' (exchanged between the defensive and offensive player) behind the arc at the top of the court before play can begin after every dead ball."
+  },
+  {
+    "id": "master_q17",
+    "query": "In FIBA, what does the shot clock reset to after an offensive rebound?",
+    "english_query": "In FIBA, what does the shot clock reset to after an offensive rebound?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Shot Clock Reset",
+    "ground_truth_keywords": [
+      "fourteen",
+      "14",
+      "seconds",
+      "offensive",
+      "rebound"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "In FIBA, if the offensive team recovers the rebound after a missed shot that touched the rim, the shot clock is reset to 14 seconds, not 24."
+  },
+  {
+    "id": "master_q18",
+    "query": "What is the penalty for a defensive three-second violation in the NBA?",
+    "english_query": "What is the penalty for a defensive three-second violation in the NBA?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Defensive Three-Second Rule",
+    "ground_truth_keywords": [
+      "technical",
+      "free throw",
+      "possession",
+      "defense",
+      "three-second"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "In the NBA, the penalty for a defensive three-second violation is a technical foul. The offensive team is awarded one free throw, which can be shot by any player in the game, and the offensive team retains possession of the ball."
+  },
+  {
+    "id": "master_q19",
+    "query": "Combien de fautes d'équipe par quart-temps avant les lancers francs en FIBA?",
+    "english_query": "How many team fouls per quarter before the penalty free throws in FIBA?",
+    "language": "fr",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Team Fouls Penalty",
+    "ground_truth_keywords": [
+      "team",
+      "fouls",
+      "four",
+      "penalty",
+      "quarter",
+      "fifth"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "En FIBA, une équipe est dans la pénalité de fautes d'équipe lorsqu'elle a commis 4 fautes d'équipe dans un quart-temps. À partir de la 5ème faute d'équipe, chaque faute défensive personnelle entraîne deux lancers francs."
+  },
+  {
+    "id": "master_q20",
+    "query": "How long is an overtime period in NCAA men's basketball?",
+    "english_query": "How long is an overtime period in NCAA men's basketball?",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Extra Periods",
+    "ground_truth_keywords": [
+      "five",
+      "minutes",
+      "overtime",
+      "extra",
+      "period"
+    ],
+    "requires_diagram": false,
+    "style": "technical",
+    "ground_truth_answer": "In NCAA men's basketball, each overtime (extra period) is five minutes long."
+  },
+  {
+    "id": "master_q21",
+    "query": "A player is jumping out of bounds to save a ball. He catches it in mid-air, but throws it off an opposing player's leg who is standing on the out of bounds line. Who gets the ball?",
+    "english_query": "A player is jumping out of bounds to save a ball. He catches it in mid-air, but throws it off an opposing player's leg who is standing on the out of bounds line. Who gets the ball?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Player Out-of-Bounds",
+    "ground_truth_keywords": [
+      "last touched",
+      "out of bounds",
+      "opposing player",
+      "standing",
+      "possession"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "The team of the player who jumped gets the ball. Because the opposing player was standing out of bounds when the ball touched him, he is considered the last player to touch the ball before it went out of bounds. The ball is awarded to the saving player's team."
+  },
+  {
+    "id": "master_q22",
+    "query": "NBA: A defender closely guards the ball handler in the backcourt. The defender tips the ball, causing it to roll into the frontcourt. The offensive player runs into the frontcourt, picks it up, and dribbles back into the backcourt. Backcourt violation?",
+    "english_query": "NBA: A defender closely guards the ball handler in the backcourt. The defender tips the ball, causing it to roll into the frontcourt. The offensive player runs into the frontcourt, picks it up, and dribbles back into the backcourt. Backcourt violation?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Backcourt Violation",
+    "ground_truth_keywords": [
+      "backcourt",
+      "violation",
+      "tipped",
+      "control",
+      "status"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "Yes, it is a backcourt violation. Once the offensive player established player control in the frontcourt by picking the ball up, they cannot return it to the backcourt. The fact that the defender initially tipped it does not change the offensive team's status once they secure it in the frontcourt."
+  },
+  {
+    "id": "master_q23",
+    "query": "FIBA: A player is fouled on a 3-point attempt. Before the foul occurs, the shot clock horn sounds. The player then shoots, is fouled, and misses. What is the call?",
+    "english_query": "FIBA: A player is fouled on a 3-point attempt. Before the foul occurs, the shot clock horn sounds. The player then shoots, is fouled, and misses. What is the call?",
+    "language": "en",
+    "expected_league": "FIBA",
+    "ground_truth_section": "Shot Clock Violation",
+    "ground_truth_keywords": [
+      "shot clock",
+      "horn",
+      "foul",
+      "violation",
+      "dead ball",
+      "ignore"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "It is a shot clock violation. Because the shot clock expired before the ball left the shooter's hands and before the foul occurred, the ball becomes dead when the horn sounds. The subsequent foul is ignored (unless it is unsportsmanlike or disqualifying)."
+  },
+  {
+    "id": "master_q24",
+    "query": "NBA: Coach challenges an out-of-bounds call. During the video review, refs see a foul clearly occurred before the ball went out. Can they retroactively call the foul?",
+    "english_query": "NBA: Coach challenges an out-of-bounds call. During the video review, refs see a foul clearly occurred before the ball went out. Can they retroactively call the foul?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Coach's Challenge",
+    "ground_truth_keywords": [
+      "challenge",
+      "review",
+      "foul",
+      "retroactively",
+      "out of bounds",
+      "adjacent"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "No. Under NBA challenge rules, when an out-of-bounds call is challenged, the referees can only determine who caused the ball to go out of bounds. They cannot retroactively assess a personal foul that was not called on the floor, even if the video clearly shows one occurred."
+  },
+  {
+    "id": "master_q25",
+    "query": "In FIBA 3x3, Team A is down 19-20. Player A hits a shot from behind the arc while being fouled, bringing their score to 21. Do they shoot the free throw, or is the game immediately over?",
+    "english_query": "In FIBA 3x3, Team A is down 19-20. Player A hits a shot from behind the arc while being fouled, bringing their score to 21. Do they shoot the free throw, or is the game immediately over?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Winner of the Game",
+    "ground_truth_keywords": [
+      "21 points",
+      "immediately",
+      "over",
+      "free throw",
+      "not administered"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "The game is immediately over. In FIBA 3x3, the first team to score 21 points wins the game instantly. Because the 2-point shot brought their score to 21, the game ends immediately upon the basket being made, and the pending free throw for the foul is not administered."
+  },
+  {
+    "id": "master_q26",
+    "query": "NBA: The shot clock is at 0.1 seconds. A player catches an inbounds pass and immediately shoots it before the buzzer. It goes in. Does it count?",
+    "english_query": "NBA: The shot clock is at 0.1 seconds. A player catches an inbounds pass and immediately shoots it before the buzzer. It goes in. Does it count?",
+    "language": "en",
+    "expected_league": "NBA",
+    "ground_truth_section": "Timing Regulations",
+    "ground_truth_keywords": [
+      "0.3",
+      "seconds",
+      "tip",
+      "tap",
+      "catch",
+      "shoot"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "No. Under the Trent Tucker rule, a player cannot catch and shoot a field goal with less than 0.3 seconds remaining on the game or shot clock. With 0.1 seconds, the ball can only be legally tipped or tapped into the basket."
+  },
+  {
+    "id": "master_q27",
+    "query": "NCAA: Player A drives and is fouled by Player B. The whistle blows. Player A then throws a wild punch at Player B in retaliation before shooting the free throws. How is this administered?",
+    "english_query": "NCAA: Player A drives and is fouled by Player B. The whistle blows. Player A then throws a wild punch at Player B in retaliation before shooting the free throws. How is this administered?",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Fouls and Penalties",
+    "ground_truth_keywords": [
+      "flagrant",
+      "disqualifying",
+      "ejected",
+      "offset",
+      "free throws"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "Player B is charged with a personal foul. Player A is charged with a flagrant 2 contact dead ball foul (or disqualifying foul) and is immediately ejected. Any eligible substitute shoots Player A's free throws. Then, any player from Team B shoots two free throws for the flagrant foul, and Team B is awarded possession of the ball."
+  },
+  {
+    "id": "master_q28",
+    "query": "NCAA vs NBA: If the ball is bouncing on the rim, can a defensive player swat it away? Answer for both.",
+    "english_query": "NCAA vs NBA: If the ball is bouncing on the rim, can a defensive player swat it away? Answer for both.",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Basket Interference",
+    "ground_truth_keywords": [
+      "cylinder",
+      "FIBA",
+      "NBA",
+      "NCAA",
+      "swat",
+      "bouncing"
+    ],
+    "requires_diagram": false,
+    "style": "comparative",
+    "ground_truth_answer": "In the NBA and NCAA, this is basket interference; the ball cannot be touched while it is on the ring or within the imaginary cylinder above the basket. (Note: Under FIBA rules, a player CAN swat the ball away once it has hit the ring, but in the NBA and NCAA they cannot)."
+  },
+  {
+    "id": "master_q29",
+    "query": "NCAA game: Team A is shooting a 1-and-1. The shooter releases the ball, but before it hits the rim, his teammate steps into the lane. The ball misses the rim entirely (airball). What is the correct call and who gets possession?",
+    "english_query": "NCAA game: Team A is shooting a 1-and-1. The shooter releases the ball, but before it hits the rim, his teammate steps into the lane. The ball misses the rim entirely (airball). What is the correct call and who gets possession?",
+    "language": "en",
+    "expected_league": "NCAA",
+    "ground_truth_section": "Free Throw Violations",
+    "ground_truth_keywords": [
+      "violation",
+      "lane",
+      "airball",
+      "turnover",
+      "possession",
+      "defense"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "There are simultaneous violations (an offensive lane violation and a free throw violation for failing to hit the rim). The penalty for both is a loss of the ball. The defensive team is awarded a throw-in at a designated spot outside the boundary line."
+  },
+  {
+    "id": "master_q30",
+    "query": "FIBA 3x3: A team is in the penalty (7 team fouls). An offensive player from that team gets called for a charging foul (player control foul). Does the other team shoot 2 free throws?",
+    "english_query": "FIBA 3x3: A team is in the penalty (7 team fouls). An offensive player from that team gets called for a charging foul (player control foul). Does the other team shoot 2 free throws?",
+    "language": "en",
+    "expected_league": "FIBA_3x3",
+    "ground_truth_section": "Fouls",
+    "ground_truth_keywords": [
+      "offensive",
+      "foul",
+      "penalty",
+      "no free throws",
+      "possession"
+    ],
+    "requires_diagram": false,
+    "style": "situational",
+    "ground_truth_answer": "No. In FIBA 3x3 (and regular FIBA), a foul committed by a player while their team is in control of the ball (an offensive foul) never results in free throws, regardless of the team foul penalty situation. It simply results in a loss of possession."
+  }
+]

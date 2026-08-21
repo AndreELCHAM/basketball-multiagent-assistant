@@ -14,7 +14,8 @@
       "position"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "The cylinder principle defines the imaginary cylinder space occupied by a player on the floor. It includes the space above the player, limited by the palms of the hands in front, the buttocks at the back, and the outside of the arms and legs. A player is entitled to this normal basketball position and the vertical space above them."
   },
   {
     "id": "q02",
@@ -31,7 +32,8 @@
       "quarter"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "Each team is allowed seven charged timeouts per regulation game. Timeouts can be called by a player in the game or the head coach during a dead ball, or by a player in possession of the ball when the ball is live."
   },
   {
     "id": "q03",
@@ -49,7 +51,8 @@
       "6.75"
     ],
     "requires_diagram": true,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "A standard FIBA basketball court is 28 meters long and 15 meters wide. The three-point line is an arc at a distance of 6.75 meters from the basket."
   },
   {
     "id": "q04",
@@ -67,7 +70,8 @@
       "450mm"
     ],
     "requires_diagram": true,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "The basketball ring must have an inner diameter of 450 millimeters. The mounting plate must be attached to the backboard in a way that prevents force from being transmitted directly to the backboard."
   },
   {
     "id": "q05",
@@ -85,7 +89,8 @@
       "space"
     ],
     "requires_diagram": true,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "During a free throw, a maximum of five players may occupy the rebound places along the free-throw lane. Three defensive players and two offensive players stand in alternating positions in the spaces along the restricted area."
   },
   {
     "id": "q06",
@@ -102,7 +107,8 @@
       "gesture"
     ],
     "requires_diagram": true,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "Referees use specific hand gestures to indicate fouls, such as a clenched fist raised for a personal foul, grabbing the wrist for a holding foul, and pushing hands forward for a pushing foul."
   },
   {
     "id": "q07",
@@ -120,7 +126,8 @@
       "dribble"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "Un joueur commet un marcher (traveling) s'il déplace illégalement un ou ses deux pieds au-delà des limites autorisées tout en tenant le ballon. Par exemple, il ne peut pas lever son pied de pivot avant de lâcher le ballon pour un dribble."
   },
   {
     "id": "q08",
@@ -137,7 +144,8 @@
       "player"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "Dans un match NBA, un joueur est exclu (disqualified) après avoir commis six fautes personnelles."
   },
   {
     "id": "q09",
@@ -154,7 +162,8 @@
       "advance"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "Según las reglas de la FIBA, un equipo tiene ocho segundos para avanzar el balón desde su pista trasera (defensiva) hacia la pista delantera (ofensiva)."
   },
   {
     "id": "q10",
@@ -171,7 +180,8 @@
       "time"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "En la NBA, un partido consta de cuatro cuartos de 12 minutos cada uno. En la NCAA (baloncesto universitario masculino), el partido se divide en dos mitades de 20 minutos cada una."
   },
   {
     "id": "q11",
@@ -188,7 +198,8 @@
       "unsportsmanlike"
     ],
     "requires_diagram": false,
-    "style": "colloquial"
+    "style": "colloquial",
+    "ground_truth_answer": "In FIBA 3x3 basketball, a technical foul results in one free throw for the opposing team. Unlike regular basketball, possession does not change after the free throw; the game resumes with the team that had possession prior to the technical foul."
   },
   {
     "id": "q12",
@@ -205,7 +216,8 @@
       "offensive"
     ],
     "requires_diagram": false,
-    "style": "colloquial"
+    "style": "colloquial",
+    "ground_truth_answer": "In NCAA men's basketball, the shot clock is 30 seconds. It resets to 30 seconds on a change of possession or a foul by the defense. It resets to 20 seconds when the offensive team rebounds a missed shot that hits the rim."
   },
   {
     "id": "q13",
@@ -223,7 +235,8 @@
       "cylinder"
     ],
     "requires_diagram": false,
-    "style": "colloquial"
+    "style": "colloquial",
+    "ground_truth_answer": "In the NBA, goaltending occurs when a player touches the ball on its downward flight toward the basket, when the ball is above the basket cylinder, or when the ball is on the rim. The ball must have a chance to score."
   },
   {
     "id": "q14",
@@ -240,7 +253,8 @@
       "3x3"
     ],
     "requires_diagram": false,
-    "style": "colloquial"
+    "style": "colloquial",
+    "ground_truth_answer": "In 3x3 basketball, the shot clock is only 12 seconds long instead of 24. A team must attempt a shot that hits the rim or enters the basket within 12 seconds of gaining possession."
   },
   {
     "id": "q15",
@@ -257,7 +271,8 @@
       "timeout"
     ],
     "requires_diagram": false,
-    "style": "colloquial"
+    "style": "colloquial",
+    "ground_truth_answer": "Yes, in the NBA, a head coach can challenge a called personal foul, an out-of-bounds call, or a goaltending/basket interference call. The team must have at least one timeout remaining to trigger the challenge, which is initiated by calling a timeout and signaling for a review."
   },
   {
     "id": "q16",
@@ -275,7 +290,8 @@
       "control"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "A double dribble violation occurs when a player dribbles, stops and holds the ball with one or both hands, and then begins to dribble again. The penalty is a loss of possession, with the ball awarded to the opposing team for a throw-in."
   },
   {
     "id": "q17",
@@ -293,7 +309,8 @@
       "return"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "A backcourt violation occurs when a team in control of the ball in their frontcourt causes the ball to return to their backcourt, and a player from that same team is the first to touch the ball. The ball is awarded to the opponents for a throw-in in their frontcourt."
   },
   {
     "id": "q18",
@@ -310,6 +327,7 @@
       "roster"
     ],
     "requires_diagram": false,
-    "style": "technical"
+    "style": "technical",
+    "ground_truth_answer": "In a 3x3 game, each team has three players on the court and one substitute on the bench. Substitutions can be made by either team when the ball becomes dead, prior to the check-ball, without requiring action from the referee."
   }
 ]

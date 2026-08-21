@@ -1,8 +1,4 @@
-"""
-Qdrant vector store management.
-Handles collection creation, upserting chunks with dense+sparse vectors,
-and querying with metadata filters.
-"""
+
 
 import logging
 import uuid
@@ -19,11 +15,7 @@ _qdrant_client: Optional[QdrantClient] = None
 
 
 def get_client() -> QdrantClient:
-    """Get or create a Qdrant client.
-    
-    Uses HTTP client-server mode if QDRANT_URL is set (Docker),
-    otherwise falls back to local embedded mode (development).
-    """
+
     global _qdrant_client
     if _qdrant_client is None:
         if QDRANT_URL:
@@ -37,10 +29,7 @@ def get_client() -> QdrantClient:
 
 
 def create_collection(collection_name: str, dense_dim: int) -> None:
-    """
-    Create a Qdrant collection with named dense + sparse vector configs.
-    Skips if collection already exists.
-    """
+
     client = get_client()
 
     existing = [c.name for c in client.get_collections().collections]
@@ -66,7 +55,6 @@ def create_collection(collection_name: str, dense_dim: int) -> None:
 
 
 def delete_collection(collection_name: str) -> None:
-    """Delete a collection if it exists."""
     client = get_client()
     existing = [c.name for c in client.get_collections().collections]
     if collection_name in existing:
@@ -80,18 +68,7 @@ def upsert_chunks(
     dense_vectors,
     sparse_vectors: Optional[list[dict]] = None,
 ) -> int:
-    """
-    Upsert chunks with dense (and optionally sparse) vectors into a collection.
 
-    Args:
-        collection_name: target collection
-        chunks: list of {"text": str, "metadata": dict}
-        dense_vectors: np.ndarray of shape (N, dim)
-        sparse_vectors: list of {token_id: weight} dicts (bge-m3 lexical weights)
-
-    Returns:
-        number of points upserted
-    """
     client = get_client()
     points = []
 
@@ -105,7 +82,7 @@ def upsert_chunks(
         # Add sparse vector if available
         if sparse_vectors is not None and i < len(sparse_vectors):
             sv = sparse_vectors[i]
-            if sv:  # non-empty
+            if sv:  
                 indices = [int(k) for k in sv.keys()]
                 values = [float(v) for v in sv.values()]
                 vectors["sparse"] = models.SparseVector(indices=indices, values=values)
@@ -136,18 +113,7 @@ def upsert_chunks_bm25(
     chunks: list[dict],
     dense_vectors,
 ) -> int:
-    """
-    Upsert chunks with dense vectors + BM25 sparse vectors (via fastembed).
-    Used for mpnet collections that don't have native sparse from the embedding model.
 
-    Args:
-        collection_name: target collection
-        chunks: list of {"text": str, "metadata": dict}
-        dense_vectors: np.ndarray of shape (N, dim)
-
-    Returns:
-        number of points upserted
-    """
     from fastembed import SparseTextEmbedding
 
     logger.info("  Generating BM25 sparse vectors via fastembed ...")
@@ -198,7 +164,7 @@ def search_dense(
     top_k: int = 5,
     league_filter: Optional[str] = None,
 ) -> list[dict]:
-    """Dense-only cosine similarity search."""
+
     client = get_client()
 
     query_filter = None
@@ -240,9 +206,7 @@ def search_hybrid(
     top_k: int = 5,
     league_filter: Optional[str] = None,
 ) -> list[dict]:
-    """
-    Hybrid search combining dense + sparse via Reciprocal Rank Fusion.
-    """
+
     client = get_client()
 
     query_filter = None
@@ -264,7 +228,7 @@ def search_hybrid(
         s_indices = sparse_indices
         s_values = sparse_values
     else:
-        # Fall back to dense-only if no sparse available
+
         return search_dense(collection_name, dense_vector, top_k, league_filter)
 
     prefetch_limit = max(top_k * 4, 20)
@@ -301,7 +265,6 @@ def search_hybrid(
 
 
 def get_collection_info(collection_name: str) -> dict:
-    """Get collection stats."""
     client = get_client()
     info = client.get_collection(collection_name)
     return {

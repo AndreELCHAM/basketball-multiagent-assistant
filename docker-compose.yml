@@ -4,53 +4,92 @@ services:
     ports: ["6333:6333"]
     volumes: [./qdrant_data:/qdrant/storage]
     networks: [rag-net]
+    restart: unless-stopped
 
   mongodb:
     image: mongo:7
     ports: ["27017:27017"]
     volumes: [mongo_data:/data/db]
     networks: [backend-net]
+    restart: unless-stopped
 
   system-a:
     build: .
     ports: ["8000:8000"]
-    depends_on: [qdrant, mongodb, mcp-rules-lookup, mcp-foul-calculator]
+    depends_on:
+      qdrant:
+        condition: service_started
+      mongodb:
+        condition: service_started
+      mcp-suspension-calculator:
+        condition: service_healthy
+      mcp-performance-calculator:
+        condition: service_healthy
     env_file: .env
     environment:
       QDRANT_URL: http://qdrant:6333
       MONGODB_URL: mongodb://mongodb:27017
       SYSTEM_B_URL: http://system-b:8001
-      MCP_RULES_URL: http://mcp-rules-lookup:5001
-      MCP_FOUL_URL: http://mcp-foul-calculator:5002
+      MCP_SUSPENSION_URL: http://mcp-suspension-calculator:5002
+      MCP_PERFORMANCE_URL: http://mcp-performance-calculator:5003
       EMBEDDING_DEVICE: cpu
-    volumes: [./data:/app/data]
-    networks: [frontend-net, rag-net, backend-net] 
+    volumes: 
+      - ./data:/app/data
+      - hf_cache:/root/.cache/huggingface
+    networks: [frontend-net, rag-net, backend-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\" || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
 
   system-b:
     build: ./system_b
     ports: ["8001:8001"]
-    depends_on: [mongodb, mcp-rules-lookup, mcp-foul-calculator]
-    environment:
-      MONGODB_URL: mongodb://mongodb:27017
-      MCP_RULES_URL: http://mcp-rules-lookup:5001
-      MCP_FOUL_URL: http://mcp-foul-calculator:5002
-    networks: [backend-net]  
-
-  mcp-rules-lookup:
-    build: ./mcp_servers/rules_lookup
-    ports: ["5001:5001"]
+    env_file: .env
     networks: [backend-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
-  mcp-foul-calculator:
-    build: ./mcp_servers/foul_calculator
+  mcp-suspension-calculator:
+    build: ./mcp_servers/suspension_calculator
     ports: ["5002:5002"]
     networks: [backend-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:5002/health')\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  mcp-performance-calculator:
+    build: ./mcp_servers/performance_calculator
+    ports: ["5003:5003"]
+    networks: [backend-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:5003/health')\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   frontend:
     build: ./frontend
     ports: ["3000:80"]
-    depends_on: [system-a]
-    networks: [frontend-net]  
+    depends_on:
+      system-a:
+        condition: service_healthy
+    networks: [frontend-net]
+    restart: unless-stopped
 
 networks:
   frontend-net:
@@ -62,3 +101,5 @@ networks:
 
 volumes:
   mongo_data:
+  hf_cache:
+

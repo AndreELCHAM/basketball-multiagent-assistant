@@ -1,8 +1,4 @@
-"""
-Retrieval benchmark script.
-Evaluates retrieval pipelines across Qdrant collections using the test dataset.
-Fully configurable: run any collection × pipeline combination.
-"""
+
 
 import json
 import logging
@@ -24,13 +20,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def load_test_dataset() -> list[dict]:
-    """Load the evaluation test dataset."""
-    if not TEST_DATASET_PATH.exists():
-        logger.error(f"Test dataset not found at {TEST_DATASET_PATH}")
+def load_test_dataset(path: Path) -> list[dict]:
+
+    if not path.exists():
+        logger.error(f"Test dataset not found at {path}")
         sys.exit(1)
 
-    with open(TEST_DATASET_PATH, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -38,15 +34,9 @@ def run_benchmark(
     collections: list[str] = None,
     pipelines: list[str] = None,
     top_k: int = 5,
+    dataset_path: Path = TEST_DATASET_PATH,
 ):
-    """
-    Run retrieval benchmarks across specified collections and pipelines.
 
-    Args:
-        collections: list of collection names (default: all)
-        pipelines: list of pipeline names (default: all)
-        top_k: number of results per query
-    """
     if collections is None:
         collections = list(COLLECTION_CONFIGS.keys())
     if pipelines is None:
@@ -63,8 +53,8 @@ def run_benchmark(
             sys.exit(1)
 
     # Load test data
-    test_data = load_test_dataset()
-    logger.info(f"Loaded {len(test_data)} test queries")
+    test_data = load_test_dataset(dataset_path)
+    logger.info(f"Loaded {len(test_data)} test queries from {dataset_path.name}")
 
     results_table = []
     all_results = []
@@ -83,8 +73,7 @@ def run_benchmark(
                 query = item["query"]
                 league = item.get("expected_league")
 
-                # For multilingual queries, use the English version for retrieval
-                # (the supervisor would translate in real use)
+
                 retrieval_query = item.get("english_query", query)
 
                 try:
@@ -114,9 +103,12 @@ def run_benchmark(
             row = {
                 "Collection": collection_name,
                 "Pipeline": pipeline_name,
+                "P@5": f"{metrics['precision_at_5']:.3f}",
+                "R@5": f"{metrics['recall_at_5']:.3f}",
                 "Hit@3": f"{metrics['hit_rate_at_3']:.3f}",
                 "Hit@5": f"{metrics['hit_rate_at_5']:.3f}",
                 "MRR": f"{metrics['mrr']:.3f}",
+                "NDCG@5": f"{metrics['ndcg_at_5']:.3f}",
                 "Avg Latency (ms)": f"{metrics['avg_latency_ms']:.1f}",
             }
             results_table.append(row)
@@ -127,9 +119,11 @@ def run_benchmark(
             })
 
             logger.info(
-                f"  Hit@3={metrics['hit_rate_at_3']:.3f} "
+                f"  P@5={metrics['precision_at_5']:.3f} "
+                f"R@5={metrics['recall_at_5']:.3f} "
                 f"Hit@5={metrics['hit_rate_at_5']:.3f} "
                 f"MRR={metrics['mrr']:.3f} "
+                f"NDCG@5={metrics['ndcg_at_5']:.3f} "
                 f"Latency={metrics['avg_latency_ms']:.1f}ms"
             )
 
@@ -149,8 +143,11 @@ def run_benchmark(
             f.write(f"\n### {r['collection']} × {r['pipeline']}\n\n")
             per_query_table = [
                 {
-                    "Query": pq["query"][:60] + "..." if len(pq["query"]) > 60 else pq["query"],
+                    "Query": pq["query"][:50] + "..." if len(pq["query"]) > 50 else pq["query"],
                     "RR": f"{pq['rr']:.3f}",
+                    "P@5": f"{pq.get('p@5', 0):.3f}",
+                    "R@5": f"{pq.get('r@5', 0):.3f}",
+                    "NDCG@5": f"{pq.get('ndcg@5', 0):.3f}",
                     "Hit@3": f"{pq['hit@3']:.0f}",
                     "Hit@5": f"{pq['hit@5']:.0f}",
                     "Latency": f"{pq['latency_ms']:.1f}ms",
@@ -189,14 +186,21 @@ if __name__ == "__main__":
         "--top-k", type=int, default=5,
         help="Number of results per query (default: 5)",
     )
+    parser.add_argument(
+        "--dataset", type=str, default=str(TEST_DATASET_PATH),
+        help="Path to the test dataset JSON file",
+    )
 
     args = parser.parse_args()
 
+    dataset_file = Path(args.dataset)
+
     if args.all:
-        run_benchmark(top_k=args.top_k)
+        run_benchmark(top_k=args.top_k, dataset_path=dataset_file)
     else:
         run_benchmark(
             collections=args.collections,
             pipelines=args.pipelines,
             top_k=args.top_k,
+            dataset_path=dataset_file
         )

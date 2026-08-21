@@ -2,6 +2,7 @@
 RAG Agent node for System A.
 Retrieves relevant rulebook chunks and synthesizes a grounded,
 multimodal-aware answer, translating back to the user's language.
+Supports multi-league comparisons (split queries across leagues).
 """
 
 import logging
@@ -24,12 +25,12 @@ logger = logging.getLogger(__name__)
 
 
 def _get_llm_client() -> OpenAI:
-    """Create OpenRouter client."""
+
     return OpenAI(base_url=OPENROUTER_BASE_URL, api_key=OPENROUTER_API_KEY)
 
 
 def _format_context(chunks: list[dict]) -> str:
-    """Format retrieved chunks into a context string for the LLM."""
+
     parts = []
     for i, chunk in enumerate(chunks, 1):
         meta = chunk.get("metadata", {})
@@ -41,7 +42,7 @@ def _format_context(chunks: list[dict]) -> str:
         header = f"[Source {i}] {league} — {section} (relevance: {score:.3f})"
         parts.append(f"{header}\n{text}")
 
-        # Include image caption if available
+
         if meta.get("image_caption"):
             parts.append(f"[Diagram for Source {i}]: {meta['image_caption']}")
 
@@ -58,8 +59,9 @@ def _synthesize_answer(
     context: str,
     user_language: str,
     has_diagrams: bool,
+    is_comparison: bool = False,
 ) -> str:
-    """Call LLM to synthesize a grounded answer from retrieved context."""
+
 
     language_instruction = ""
     if user_language != "en":
@@ -77,12 +79,26 @@ def _synthesize_answer(
             "elements in your answer when relevant (e.g., 'As shown in the court diagram...')."
         )
 
+    comparison_instruction = ""
+    if is_comparison:
+        comparison_instruction = (
+            "\n\nThis is a CROSS-LEAGUE COMPARISON query. The sources come from different "
+            "league rulebooks. Structure your answer to clearly compare and contrast the rules "
+            "between leagues. Use a comparison format (e.g., side-by-side or separate sections "
+            "for each league) to highlight similarities and differences."
+        )
+
     system_prompt = (
-        "You are an expert basketball rules assistant. Answer the user's question "
-        "using ONLY the provided rulebook sources. Be precise, cite the specific "
-        "rule/article when possible, and ground every claim in the source material.\n\n"
-        "If the sources do not contain enough information to fully answer the question, "
-        "say so explicitly — do not fabricate rules."
+        "You are an expert basketball rules assistant. Your job is to answer the user's question "
+        "using ONLY the provided rulebook sources. Do not use outside knowledge.\n\n"
+        "You must follow these strict rules:\n"
+        "1. CHAIN OF THOUGHT: You must first write a <thinking> block to analyze the rules, "
+        "cross-reference the retrieved sources, and build a logical argument before outputting your final answer.\n"
+        "2. CITATIONS: Every single claim in your final answer MUST be supported by an inline citation "
+        "matching the source index, e.g., [Source 1] or [Source 2].\n"
+        "3. NO HALLUCINATIONS: If the provided sources do not contain enough information to "
+        "fully answer the question, you must explicitly say so.\n"
+        f"{comparison_instruction}"
         f"{diagram_instruction}"
         f"{language_instruction}"
     )
@@ -102,37 +118,70 @@ def _synthesize_answer(
         max_tokens=2048,
         temperature=0.2,
     )
-    return response.choices[0].message.content.strip()
+    answer = response.choices[0].message.content.strip()
+    
+    # Strip the <thinking> block from the final output
+    import re
+    answer = re.sub(r"<thinking>.*?</thinking>\s*", "", answer, flags=re.DOTALL)
+    
+    return answer
 
 
 def rag_agent_node(state: AgentState) -> dict:
-    """
-    RAG Agent node for LangGraph.
 
-    1. Retrieves relevant chunks using the configured pipeline.
-    2. Collects image paths from retrieved metadata.
-    3. Synthesizes a grounded answer via LLM.
-    4. Translates back to user_language if needed.
-    """
     english_query = state["english_query"]
     league_filter = state.get("league_filter")
     user_language = state.get("user_language", "en")
+    rewritten_queries = state.get("rewritten_queries", {})
 
     logger.info(f"RAG Agent: query='{english_query[:80]}...', league={league_filter}")
 
-    # Step 1: Retrieve
-    results, latency = retrieve(
-        query=english_query,
-        collection_name=RETRIEVAL_COLLECTION,
-        pipeline=RETRIEVAL_PIPELINE,
-        top_k=RETRIEVAL_TOP_K,
-        league_filter=league_filter,
-    )
-    logger.info(f"  Retrieved {len(results)} chunks in {latency:.1f}ms")
+    is_comparison = league_filter == "MULTI"
+    all_results = []
 
-    # Step 2: Collect image paths
+    if is_comparison:
+
+        league_queries = {
+            k: v for k, v in rewritten_queries.items()
+            if k.startswith("rag_agent_")
+        }
+
+        if not league_queries:
+            league_queries = {
+                "rag_agent_NBA": english_query,
+                "rag_agent_FIBA": english_query,
+            }
+
+        for key, query_text in league_queries.items():
+
+            league_name = key.replace("rag_agent_", "").upper()
+            logger.info(f"  Comparison query for {league_name}: '{query_text[:60]}...'")
+
+            results, latency = retrieve(
+                query=query_text,
+                collection_name=RETRIEVAL_COLLECTION,
+                pipeline=RETRIEVAL_PIPELINE,
+                top_k=RETRIEVAL_TOP_K,
+                league_filter=league_name,
+            )
+            logger.info(f"    Retrieved {len(results)} chunks for {league_name} in {latency:.1f}ms")
+            all_results.extend(results)
+    else:
+
+        rag_query = rewritten_queries.get("rag_agent", english_query)
+        results, latency = retrieve(
+            query=rag_query,
+            collection_name=RETRIEVAL_COLLECTION,
+            pipeline=RETRIEVAL_PIPELINE,
+            top_k=RETRIEVAL_TOP_K,
+            league_filter=league_filter,
+        )
+        logger.info(f"  Retrieved {len(results)} chunks in {latency:.1f}ms")
+        all_results = results
+
+    # Collect image paths
     image_paths = []
-    for r in results:
+    for r in all_results:
         meta = r.get("metadata", {})
         if meta.get("has_image") and meta.get("image_path"):
             image_paths.append(meta["image_path"])
@@ -140,11 +189,14 @@ def rag_agent_node(state: AgentState) -> dict:
     has_diagrams = len(image_paths) > 0
     logger.info(f"  Found {len(image_paths)} diagram references")
 
-    # Step 3: Synthesize answer
-    if results:
-        context = _format_context(results)
+    # Synthesize answer
+    if all_results:
+        context = _format_context(all_results)
         client = _get_llm_client()
-        answer = _synthesize_answer(client, english_query, context, user_language, has_diagrams)
+        answer = _synthesize_answer(
+            client, english_query, context, user_language,
+            has_diagrams, is_comparison
+        )
     else:
         answer = (
             "I could not find relevant information in the basketball rulebooks to answer "
@@ -154,8 +206,9 @@ def rag_agent_node(state: AgentState) -> dict:
     logger.info(f"  Answer generated ({len(answer)} chars)")
 
     return {
-        "retrieved_chunks": results,
+        "retrieved_chunks": all_results,
         "image_paths": image_paths,
         "final_answer": answer,
         "next_agent": "__end__",
+        "response_type": "answer",
     }

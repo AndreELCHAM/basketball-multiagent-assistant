@@ -1,7 +1,4 @@
-"""
-Retrieval pipelines: Dense, Hybrid (RRF), and Dense + Cross-Encoder Rerank.
-All pipelines support optional league metadata filtering.
-"""
+
 
 import logging
 import time
@@ -16,19 +13,16 @@ logger = logging.getLogger(__name__)
 
 
 def _get_embedder_name(collection_name: str) -> str:
-    """Get the embedding model name for a collection."""
     config = COLLECTION_CONFIGS.get(collection_name, {})
     return config.get("embedder", "bge_m3")
 
 
 def _get_query_vectors(query: str, embedder_name: str) -> dict:
-    """Get dense (and optionally sparse) query vectors."""
     result = embed_query(query, embedder_name)
     return result
 
 
 def _get_sparse_for_mpnet(query: str) -> tuple[list[int], list[float]]:
-    """Generate BM25 sparse vector for a query (used with mpnet collections)."""
     from fastembed import SparseTextEmbedding
     sparse_model = SparseTextEmbedding(model_name="Qdrant/bm25")
     sparse_embeddings = list(sparse_model.query_embed(query))
@@ -44,10 +38,6 @@ def retrieve_dense(
     top_k: int = 5,
     league_filter: Optional[str] = None,
 ) -> list[dict]:
-    """
-    Pipeline 1: Dense-only retrieval.
-    Standard Top-K cosine similarity search.
-    """
     embedder = _get_embedder_name(collection_name)
     query_vecs = _get_query_vectors(query, embedder)
     dense_vec = query_vecs["dense"][0].tolist()
@@ -66,10 +56,6 @@ def retrieve_hybrid(
     top_k: int = 5,
     league_filter: Optional[str] = None,
 ) -> list[dict]:
-    """
-    Pipeline 2: Hybrid search (Dense + Sparse/BM25) with RRF fusion.
-    Uses bge-m3 native sparse for bge_m3 collections, fastembed BM25 for mpnet.
-    """
     embedder = _get_embedder_name(collection_name)
     query_vecs = _get_query_vectors(query, embedder)
     dense_vec = query_vecs["dense"][0].tolist()
@@ -104,10 +90,7 @@ def retrieve_rerank(
     initial_k: int = 15,
     league_filter: Optional[str] = None,
 ) -> list[dict]:
-    """
-    Pipeline 3: Dense retrieval + Cross-Encoder reranking.
-    Retrieves Top-{initial_k} via dense, then reranks to Top-{top_k}.
-    """
+
     # Step 1: broad dense retrieval
     candidates = retrieve_dense(
         query=query,
@@ -124,12 +107,36 @@ def retrieve_rerank(
     return reranked
 
 
-# ── Pipeline dispatcher ────────────────────────────────────────────────────
+def retrieve_hybrid_rerank(
+    query: str,
+    collection_name: str,
+    top_k: int = 5,
+    initial_k: int = 15,
+    league_filter: Optional[str] = None,
+) -> list[dict]:
+    # Step 1: broad hybrid retrieval
+    candidates = retrieve_hybrid(
+        query=query,
+        collection_name=collection_name,
+        top_k=initial_k,
+        league_filter=league_filter,
+    )
+
+    # Step 2: cross-encoder rerank
+    if not candidates:
+        return []
+
+    reranked = rerank(query=query, documents=candidates, top_n=top_k)
+    return reranked
+
+
+
 
 PIPELINE_MAP = {
     "dense": retrieve_dense,
     "hybrid": retrieve_hybrid,
     "rerank": retrieve_rerank,
+    "hybrid_rerank": retrieve_hybrid_rerank,
 }
 
 
@@ -140,19 +147,7 @@ def retrieve(
     top_k: int = 5,
     league_filter: Optional[str] = None,
 ) -> tuple[list[dict], float]:
-    """
-    Unified retrieval interface.
 
-    Args:
-        query: search query
-        collection_name: Qdrant collection to search
-        pipeline: "dense", "hybrid", or "rerank"
-        top_k: number of results
-        league_filter: optional league metadata filter
-
-    Returns:
-        (results, latency_ms)
-    """
     pipeline_fn = PIPELINE_MAP.get(pipeline)
     if pipeline_fn is None:
         raise ValueError(f"Unknown pipeline: {pipeline}. Options: {list(PIPELINE_MAP.keys())}")

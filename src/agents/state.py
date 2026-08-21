@@ -1,7 +1,4 @@
-"""
-LangGraph state schema for System A.
-Defines the shared state passed between supervisor and agent nodes.
-"""
+
 
 from typing import Annotated, Optional
 from typing_extensions import TypedDict
@@ -10,26 +7,42 @@ from langgraph.graph.message import add_messages
 
 
 class AgentState(TypedDict):
-    """Shared state for the System A LangGraph workflow."""
 
-    # Conversation history (LangGraph message accumulation)
+
+
     messages: Annotated[list, add_messages]
 
-    # User input
-    user_query: str                    # Original query (any language)
-    user_language: str                 # Detected language code: "en", "fr", "es", "ar"
+    thread_id: str                   
+    conversation_history: list[dict]   
 
-    # Processed query
-    english_query: str                 # Translated/normalized English query
-    league_filter: Optional[str]       # Extracted league: "FIBA", "NBA", "NCAA", "FIBA_3x3", or None
+    user_query: str                    
+    user_language: str                 
 
-    # Retrieval results
-    retrieved_chunks: list[dict]       # RAG results with text + metadata
-    image_paths: list[str]            # Diagram paths from retrieved chunks
+    english_query: str                 
+    league_filter: Optional[str]       
 
-    # Output
-    final_answer: str                  # Synthesized answer in user_language
 
-    # Routing control
-    next_agent: str                    # "rag_agent", "web_agent", "mcp_tools", "__end__"
-    iteration_count: int               # Guard against infinite loops
+    next_agent: str                    
+    route_plan: list[str]              
+    tool_input: dict                   
+    rewritten_queries: dict   
+
+    retrieved_chunks: list[dict]       
+    image_paths: list[str]             
+
+
+    web_search_results: dict           
+
+
+    mcp_results: dict                
+
+
+    pending_human_input: Optional[str] 
+    human_input_options: list[str]     
+    human_input_message: str           
+
+
+    final_answer: str                  
+    response_type: str                 
+
+    iteration_count: int               

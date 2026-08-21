@@ -33,3 +33,6 @@ Pillow
 fastapi
 uvicorn[standard]
 pymongo
+
+# HTTP client (for calling System B and MCP tools)
+httpx

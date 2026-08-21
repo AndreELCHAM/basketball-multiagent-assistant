@@ -1,7 +1,4 @@
-"""
-Local cross-encoder reranker using BAAI/bge-reranker-v2-m3.
-Runs on GPU — no external API calls needed.
-"""
+
 
 import logging
 from typing import Optional
@@ -14,7 +11,6 @@ _reranker_model = None
 
 
 def _load_reranker():
-    """Lazy-load the cross-encoder reranker model."""
     global _reranker_model
     if _reranker_model is None:
         logger.info(f"Loading reranker model: {RERANKER_MODEL} ...")
@@ -33,17 +29,7 @@ def rerank(
     documents: list[dict],
     top_n: Optional[int] = None,
 ) -> list[dict]:
-    """
-    Rerank retrieved documents using the cross-encoder.
 
-    Args:
-        query: the search query
-        documents: list of {"text": str, "metadata": dict, "score": float}
-        top_n: number of top results to return (default: all)
-
-    Returns:
-        Reranked list of documents with updated scores
-    """
     if not documents:
         return []
 
