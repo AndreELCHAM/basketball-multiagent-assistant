@@ -11,25 +11,37 @@ A multi-agent RAG system that answers basketball rules questions across **NBA**,
 ```mermaid
 graph TB
     User([User]) --> Frontend[Frontend - Nginx]
-    Frontend --> |HTTP/SSE| SystemA[System A - FastAPI]
+    Frontend --> |HTTP/SSE| SystemA
 
-    SystemA --> Supervisor{Supervisor}
+    subgraph SystemA_Group["System A - FastAPI + LangGraph"]
+        SystemA[System A API] --> Supervisor{Supervisor}
+        Supervisor --> |Rules questions| RAG[RAG Agent]
+        Supervisor --> |Live data| Web[Web Agent]
+        Supervisor --> |Missing league| HumanInput[Human Input Node]
+        RAG --> |Diagram captions| VLM[Vision LLM]
+    end
 
-    Supervisor --> |Rules questions| RAG[RAG Agent]
-    Supervisor --> |Live data| Web[Web Agent]
-    Supervisor --> |Suspension check| MCP_S[MCP Suspension Calculator]
-    Supervisor --> |Performance grade| MCP_P[MCP Performance Calculator]
-    Supervisor --> |Missing league| HumanInput[Human Input Node]
+    subgraph SystemB_Group["System B - Google ADK"]
+        SystemB[Web Search Agent]
+    end
 
-    RAG --> Qdrant[(Qdrant Vector DB)]
-    RAG --> |Diagram captions| VLM[Vision LLM]
+    subgraph MCP_Group["MCP Microservices"]
+        MCP_S[Suspension Calculator]
+        MCP_P[Performance Calculator]
+    end
 
-    Web --> Supervisor
-    Web --> |Chained| MCP_S
-    Web --> |Chained| MCP_P
+    subgraph Data_Group["Data Stores"]
+        Qdrant[(Qdrant Vector DB)]
+        MongoDB[(MongoDB Chat Store)]
+    end
 
-    SystemA --> |Live stats| SystemB[System B - Google ADK]
-    SystemA --> MongoDB[(MongoDB Chat Store)]
+    Web --> |HTTP| SystemB
+    Supervisor --> |HTTP| MCP_S
+    Supervisor --> |HTTP| MCP_P
+    Web --> |Chained HTTP| MCP_S
+    Web --> |Chained HTTP| MCP_P
+    RAG --> Qdrant
+    SystemA --> MongoDB
 
     style Frontend fill:#2d3436,stroke:#636e72,color:#dfe6e9
     style SystemA fill:#0984e3,stroke:#74b9ff,color:#fff
@@ -41,6 +53,10 @@ graph TB
     style MCP_P fill:#d63031,stroke:#ff7675,color:#fff
     style Qdrant fill:#00cec9,stroke:#81ecec,color:#fff
     style MongoDB fill:#00cec9,stroke:#81ecec,color:#fff
+    style SystemA_Group fill:#1e272e,stroke:#0984e3,color:#dfe6e9
+    style SystemB_Group fill:#1e272e,stroke:#6c5ce7,color:#dfe6e9
+    style MCP_Group fill:#1e272e,stroke:#d63031,color:#dfe6e9
+    style Data_Group fill:#1e272e,stroke:#00cec9,color:#dfe6e9
 ```
 
 ### Services (7 containers)
@@ -198,3 +214,8 @@ See [EVALUATION.md](EVALUATION.md) for the complete evaluation report including:
 - RAGAS generation scores (Faithfulness, Relevancy, Correctness)
 - Agent routing accuracy (100%)
 - Three failure cases with analysis
+
+
+
+
+
