@@ -37,8 +37,6 @@ graph TB
     Supervisor --> |Live data| SystemB
     Supervisor --> |Suspension check| MCP_S
     Supervisor --> |Performance grade| MCP_P
-    SystemB --> |Chained| MCP_S
-    SystemB --> |Chained| MCP_P
     RAG --> Qdrant
     SystemA --> MongoDB
 
