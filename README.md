@@ -16,7 +16,6 @@ graph TB
     subgraph SystemA_Group["System A - FastAPI + LangGraph"]
         SystemA[System A API] --> Supervisor{Supervisor}
         Supervisor --> |Rules questions| RAG[RAG Agent]
-        Supervisor --> |Live data| Web[Web Agent]
         Supervisor --> |Missing league| HumanInput[Human Input Node]
         RAG --> |Diagram captions| VLM[Vision LLM]
     end
@@ -35,11 +34,11 @@ graph TB
         MongoDB[(MongoDB Chat Store)]
     end
 
-    Web --> |HTTP| SystemB
-    Supervisor --> |HTTP| MCP_S
-    Supervisor --> |HTTP| MCP_P
-    Web --> |Chained HTTP| MCP_S
-    Web --> |Chained HTTP| MCP_P
+    Supervisor --> |Live data| SystemB
+    Supervisor --> |Suspension check| MCP_S
+    Supervisor --> |Performance grade| MCP_P
+    SystemB --> |Chained| MCP_S
+    SystemB --> |Chained| MCP_P
     RAG --> Qdrant
     SystemA --> MongoDB
 
@@ -48,7 +47,6 @@ graph TB
     style SystemB fill:#6c5ce7,stroke:#a29bfe,color:#fff
     style Supervisor fill:#fdcb6e,stroke:#f39c12,color:#2d3436
     style RAG fill:#00b894,stroke:#55efc4,color:#fff
-    style Web fill:#e17055,stroke:#fab1a0,color:#fff
     style MCP_S fill:#d63031,stroke:#ff7675,color:#fff
     style MCP_P fill:#d63031,stroke:#ff7675,color:#fff
     style Qdrant fill:#00cec9,stroke:#81ecec,color:#fff
