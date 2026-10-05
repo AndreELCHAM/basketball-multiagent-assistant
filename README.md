@@ -20,11 +20,11 @@ graph TB
         RAG --> |Diagram captions| VLM[Vision LLM]
     end
 
-    subgraph SystemB_Group["System B - Google ADK"]
+    subgraph SystemB_Group["System B - Gemini (google-genai SDK)"]
         SystemB[Web Search Agent]
     end
 
-    subgraph MCP_Group["MCP Microservices"]
+    subgraph MCP_Group["Calculator Tools"]
         MCP_S[Suspension Calculator]
         MCP_P[Performance Calculator]
     end
@@ -61,11 +61,11 @@ graph TB
 |---------|------|------|
 | **Frontend** | Nginx serving the chat UI | 3000 |
 | **System A** | Main orchestrator (FastAPI + LangGraph) | 8000 |
-| **System B** | Live Web stats via Google ADK | 8001 |
+| **System B** | Live web stats via Gemini (google-genai SDK) with Google Search | 8001 |
 | **Qdrant** | Vector database for document embeddings | 6333 |
 | **MongoDB** | Chat history persistence | 27017 |
-| **MCP Suspension** | Technical foul suspension risk calculator | 5002 |
-| **MCP Performance** | Player performance grading tool | 5003 |
+| **Suspension Calculator** | Technical foul suspension risk calculator tool | 5002 |
+| **Performance Calculator** | Player performance grading tool | 5003 |
 
 
 
@@ -144,24 +144,24 @@ A single RAG pipeline cannot handle the diversity of basketball queries. Rules q
 
 We benchmarked 16 configurations (4 embedding collections x 4 retrieval pipelines) across 3 test datasets. Hybrid search (dense + sparse) with cross-encoder reranking consistently outperformed all other configurations, with `markdown_mpnet x hybrid_rerank` achieving the best results. See `EVALUATION.md` for the full comparison.
 
-### Why a separate Google ADK system B
+### Why a separate System B
 
-System B uses Google ADK for real-time WEB data. Isolating it as a separate service keeps the main agent framework (LangGraph) clean as well as Google ADK being a great choice for a web search agent since it handles it natively with Google search and only needs a google api key as a setup. It also demonstrates a genuine multi-system microservice architecture.
+System B uses the Google Gemini SDK (google-genai) with built-in Google Search for real-time web data. Isolating it as a separate service keeps the main agent framework (LangGraph) clean, and it only needs a Google API key as a setup. It also demonstrates a genuine multi-system microservice architecture.
 
-### Why we chose these MCP Tools
+### Why we chose these calculator tools
 
-A very big point of struggle of LLMs is math calculations therefore we implemented 2 separate Fast API MCP tools to handle the calculations of player suspension risk and performance grading.
+A very big point of struggle of LLMs is math calculations therefore we implemented 2 separate tools to handle the calculations of player suspension risk and performance grading.
 
 ---
 
 ## Known Limitations
 
 - **LLM rate limits**: OpenRouter cheap tier rate limits can cause retry errors during high-throughput evaluation runs. Production deployment would need a dedicated API key with higher limits.
-- **Off-season MCP data**: The suspension calculator returns zeroes during the NBA off-season rather than indicating that data is unavailable, which can produce misleading results.
+- **Off-season calculator data**: The suspension calculator returns zeroes during the NBA off-season rather than indicating that data is unavailable, which can produce misleading results.
 - **Answer correctness scores**: RAGAS correctness metrics are penalized when the LLM generates verbose, well-cited answers compared to brief ground truth strings. The actual answer quality is higher than the scores suggest.
 - **Conversation context**: Follow-up queries lose context quickly in some scenarios and hallucinate answers the user never asked for, doesnt happen all the time as the demo will show but longer conversations will lose context.
 - **Highly complex queries**: as shown in the evaluations, the retrieval results degraded by 15-20% on the highly complex test set 3 showing the model can struggle with complex logic and being able to find all the edge cases in complex rules.(also shown in the failure cases)
-- **Terminal MCP nodes**: The MCP tools (suspension/performance calculators) are terminal nodes in the graph, after they run, the result goes directly to the user without passing back through the supervisor. This means the supervisor cannot do post-processing or combine MCP results with other agent outputs in the same query.
+- **Terminal tool nodes**: The tools (suspension/performance calculators) are terminal nodes in the graph, after they run, the result goes directly to the user without passing back through the supervisor. This means the supervisor cannot do post-processing or combine tool results with other agent outputs in the same query.
 
 ---
 
@@ -177,7 +177,7 @@ basketball-multiagent-assistant/
 |   |   |-- supervisor.py   # Query routing and language detection
 |   |   |-- rag_agent.py    # Document retrieval and generation
 |   |   |-- web_agent.py    # Web search 
-|   |   |-- mcp_agent.py    # MCP tool integration
+|   |   |-- mcp_agent.py    # Calculator tool integration
 |   |   |-- human_input.py  # League disambiguation
 |   |   |-- guardrails.py   # Input validation and topic filtering
 |   |   |-- state.py        # Shared agent state schema
@@ -187,8 +187,8 @@ basketball-multiagent-assistant/
 |   |-- vectorstore/        # Qdrant client wrapper
 |   |-- evaluation/         # RAGAS and retrieval metrics
 |   |-- config.py           # Central configuration
-|-- system_b/               # System B (Google ADK agent)
-|-- mcp_servers/
+|-- system_b/               # System B (Gemini web search agent)
+|-- mcp_servers/            # Calculator tools
 |   |-- suspension_calculator/
 |   |-- performance_calculator/
 |-- frontend/               # Nginx + static HTML/CSS/JS
@@ -198,7 +198,6 @@ basketball-multiagent-assistant/
 |-- Dockerfile              # System A container
 |-- .env.example
 |-- EVALUATION.md
-|-- CHANGELOG.md
 ```
 
 ---
